@@ -1,21 +1,35 @@
-#include <linux/init.h>
-#include <linux/module.h>
-#include <linux/kernel.h>
-
-MODULE_LICENSE("GPL v2");
-MODULE_AUTHOR("cola");
-MODULE_DESCRIPTION("A simple heap anomaly detection tool");
-MODULE_VERSION("0.01");
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <malloc.h>
+#include <dlfcn.h>
 
 
-static int __init lkm_example_init(void){
-    printk(KERN_INFO "Hello, world!\n");
-    return 0;
+extern void *__libc_malloc(size_t size);
+
+int malloc_hook_active = 1;
+
+void*
+my_malloc_hook (size_t size, void *caller)
+{
+  void *result;
+
+  // deactivate hooks for logging
+  malloc_hook_active = 0;
+
+  result = malloc(size);
+  printf("it works!");
+  // reactivate hooks
+  malloc_hook_active = 1;
+
+  return result;
 }
 
-static void __exit lkm_example_exit(void){
-    printk(KERN_INFO "Goodbye, world!\n");
+void*
+malloc (size_t size)
+{
+  void *caller = __builtin_return_address(0);
+  if (malloc_hook_active)
+    return my_malloc_hook(size, caller);
+  return __libc_malloc(size);
 }
-
-module_init(lkm_example_init);
-module_exit(lkm_example_exit);
