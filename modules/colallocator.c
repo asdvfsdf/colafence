@@ -27,8 +27,6 @@ static int __init my_init(void) {
 
     printk(KERN_INFO "Virtual Address: %p, Physical Address: %lx\n", pool, phys_addr);
 
-    kfree((unsigned long)pool); // 释放分配的页面
-
     return 0;
 }
 
