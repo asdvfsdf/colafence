@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "colafence.h": "c",
+        "unistd.h": "c"
+    }
+}

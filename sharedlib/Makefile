@@ -20,3 +20,4 @@ $(LIBNAME): $(SRC)
 
 clean:
 	rm -f $(LIBNAME)
+
