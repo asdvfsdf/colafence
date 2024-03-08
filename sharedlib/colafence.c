@@ -14,6 +14,7 @@
 
 int fence_enable;
 
+const char* analysis_dir;
 const char* output_file;
 FILE* file = NULL; 
 
@@ -21,14 +22,10 @@ extern void *__libc_malloc(size_t size);
 
 void __attribute__((constructor)) timer_init(void) {
     
-    fence_enable =atoi(getenv("FENCE_ENABLE"));
-    
-    if(fence_enable){
-        init_timer();
-        init_fence_output();
-    }else{
-
-    }
+    printf("good\n");
+    analysis_dir = getenv("ANALYSIS");
+    init_timer();
+    init_fence_output();
 }
 
 int malloc_hook_active = 0;
@@ -68,17 +65,11 @@ void init_timer(){
 
 int init_fence_output(){  
 
-    char cwd[50];
-
-    getcwd(cwd, sizeof(cwd));
-
-    output_file = strcat( , );
-
-    if(access(dir_path, F_OK) == 0){
+    if(access(analysis_dir, F_OK) == 0){
 
     }else{
 
-        int result = mkdir(dir_path, 0777);
+        int result = mkdir(analysis_dir, 0777);
 
         if (result == 0) {
             printf("dir init success\n");
@@ -94,7 +85,7 @@ int init_fence_output(){
     sprintf(pid, "%d", (int)getpid());
 
     FILE *file;
-    file = fopen(strcat(dir_path, pid), "w+");
+    file = fopen(strcat(strcat(analysis_dir, "/"), pid), "w+");
 
     if (file != NULL) {
         fprintf(file, "colafence output\n");

@@ -16,7 +16,7 @@ all: $(LIBNAME)
 
 # Compile colafence.c into shared library
 $(LIBNAME): $(SRC)
-	$(CC) $(CFLAGS) -shared -o $(LIBNAME) $(SRC)
+	$(CC) $(CFLAGS) -shared $(SRC) -o $(LIBNAME)
 
 clean:
 	rm -f $(LIBNAME)
