@@ -1,7 +1,7 @@
 # 提示用户输入编译选项和 CFLAGS
 CC := gcc
 FLAGS :=
-LIB_FLAG :=
+LIB_FLAG := -Lsharedlib -lcolafence
 
 # 指定代码文件的源文件和输出文件
 CODE_SOURCE := $(wildcard ./code/*.c)
@@ -19,3 +19,11 @@ $(CODE_OUTPUT): $(CODE_SOURCE)
 
 clean:
 	rm -f $(CODE_OUTPUT)
+	make clean -C sharedlib
+
+test:
+	make -C sharedlib
+	make lib -C sharedlib
+	make
+	echo ""
+	./output/testfile

@@ -21,3 +21,7 @@ $(LIBNAME): $(SRC)
 clean:
 	rm -f $(LIBNAME)
 
+lib:
+	sudo cp libcolafence.so /lib
+	sudo cp libcolafence.so /usr/lib
+
